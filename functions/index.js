@@ -107,6 +107,49 @@ app.post("/update/:cropId", async (req, res) => {
 
 app.listen(3000, () => console.log("Example app listening on port 3000!"));
 
+app.post("/register", async (req, res) => {
+  const uid = req.body.uid;
+  const id = req.body.id;
+  const name = req.body.name;
+  const loc = req.body.loc;
+
+  const cityRef = db.collection("users").doc(uid);
+  const doc = await cityRef.get();
+
+  const data = {
+    name: name,
+    id: id,
+    loc: loc,
+    reg: 1,
+  };
+
+  const res1 = await cityRef.update(data);
+  const doc1 = await cityRef.get();
+  return res.send({ uid: uid, data: doc.data() });
+});
+
+app.post("/login", async (req, res) => {
+  const uid = req.body.uid;
+  const type = req.body.type;
+
+  const cityRef = db.collection("users").doc(uid);
+  const doc = await cityRef.get();
+  if (!doc.exists) {
+    console.log("No such document!");
+    const data = {
+      type: type,
+      reg: 0,
+    };
+    const res1 = await db.collection("users").doc(uid).set(data);
+    const doc = await cityRef.get();
+
+    return res.send({ uid: uid, data: doc.data() });
+  } else {
+    console.log("Document data:", doc.data());
+    return res.send({ uid: uid, data: doc.data() });
+  }
+});
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
