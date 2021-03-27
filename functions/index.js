@@ -8,7 +8,7 @@ const db = admin.firestore();
 
 const app = express();
 const cors = require("cors");
-app.use(cors({ origin: true }));
+app.use(cors({origin: true}));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 const blockServer = "http://34.87.52.243:3000";
 const entityName = "Test";
@@ -44,7 +44,7 @@ async function getCrop(cropId) {
       return [true, resp.data];
     })
     .catch((error) => {
-      return [false, `{"code": ${error.response.status}}`];
+      return [false, `{"code": ${error.response.status}, "message": ${error.response.data}}`];
     });
 }
 
@@ -54,7 +54,7 @@ app.get("/get/:cropId", async (req, res) => {
   data = JSON.parse(data);
   console.log(status, data);
   if (!status) res.status(data.code);
-  return res.send({ success: status, data: data });
+  return res.send({success: status, data: data});
 });
 
 app.post("/create/:cropId", async (req, res) => {
@@ -75,24 +75,27 @@ app.post("/create/:cropId", async (req, res) => {
     });
   console.log(status, ret);
 
-  return res.send({ success: status, data: ret });
+  return res.send({success: status, data: ret});
 });
 
 app.post("/update/:cropId", async (req, res) => {
   let [gotStatus, gotData] = await getCrop(req.params.cropId);
+  gotData = JSON.parse(gotData);
 
   if (!gotStatus) {
-    return res.send({ success: gotStatus, data: gotData });
+    return res.send({success: gotStatus, data: gotData});
   }
+
+  let new_data = {...gotData, ...req.body};
+  console.log(new_data);
 
   let data = {
     $class: "org.orange.organicchain.Test",
-    cropId: req.params.cropId,
-    data: JSON.stringify(req.body),
+    data: JSON.stringify(new_data),
   };
   console.log(data);
   let [status, ret] = await axios
-    .post(`${blockServer}/api/${entityName}`, data)
+    .put(`${blockServer}/api/${entityName}/${req.params.cropId}`, data)
     .then((resp) => {
       return [true, resp.data];
     })
@@ -102,10 +105,10 @@ app.post("/update/:cropId", async (req, res) => {
     });
   console.log(status, ret);
 
-  return res.send({ success: status, data: ret });
+  return res.send({success: status, data: ret});
 });
 
-app.listen(3000, () => console.log("Example app listening on port 3000!"));
+// app.listen(3000, () => console.log("Example app listening on port 3000!"));
 
 app.post("/register", async (req, res) => {
   const uid = req.body.uid;
@@ -157,3 +160,6 @@ app.post("/login", async (req, res) => {
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+//
+
+exports.api = functions.https.onRequest(app);
