@@ -1,2 +1,6 @@
 <h1>{{ agent }}</h1>
-<firebase-ui class="ui"> </firebase-ui>
+
+<firebase-ui (signInSuccessWithAuthResult)="successCallback($event)">
+</firebase-ui>
+
+<button (click)="logOut()">LOGOUT</button>

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
@@ -19,6 +20,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { LoginComponent } from './login/login.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { ProducerComponent } from './forms/producer/producer.component';
+
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { RegisterProducerComponent } from './register/register-producer/register-producer.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -31,7 +38,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 };
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, ProducerComponent, RegisterProducerComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -39,6 +46,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    AngularFirestoreModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     BrowserAnimationsModule,
     MatFormFieldModule,
@@ -46,6 +54,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     MatSelectModule,
     MatCardModule,
     MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

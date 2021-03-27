@@ -1,0 +1,21 @@
+<mat-card>
+  <h1>Producer Registration</h1>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Producer ID</mat-label>
+      <input id="id" formControlName="id" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Producer Location</mat-label>
+      <input id="loc" formControlName="loc" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Producer Name</mat-label>
+      <input id="name" formControlName="name" matInput />
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary">SUBMIT</button>
+  </form>
+</mat-card>
