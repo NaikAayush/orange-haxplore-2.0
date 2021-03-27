@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("bg.jpg");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+}
+
+.ui {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+}
+
+/* firebase-ui {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+mat-form-field {
+  width: 80%;
+} */
