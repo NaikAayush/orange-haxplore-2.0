@@ -87,6 +87,16 @@ _Add some screens and a demo_
 #### Usage
 
 _Tell in steps how can we setup your application. Also mention all relevant requirements and links._
+* First step is to run npm -i to make sure to install all the dependencies.
+* The Front End Angular app is in the client folder, and can be run using ng serve.
+* The Back End Node.js code is under the server folder, and npm run is used to run it.
+* The App consists of 4 interfaces.
+1. Producer - Where the Food Producer creates the block on the blockchain with starter information.
+2. Supplier - The Supplier updates the block with further information such as date and storage temperature.
+3. Seller - Further updates in regards to the storage area, temperature, and date.
+4. Consumer - The dashboard to look at all the transparent data, to completely know about the origin of the Food.
+
+* All our services communicate via APIs, for scalability and simplicity
 
 #### Tracks used
 
@@ -94,7 +104,7 @@ _Amazon Web Services Track_
 
 #### AWS Services Used
 
-We will be used AWS services.
+We did not use AWS services as we did not have credits to use them.
 
 
 
