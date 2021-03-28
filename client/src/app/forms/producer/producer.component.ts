@@ -69,7 +69,7 @@ export class ProducerComponent implements OnInit {
           p_loc: this.producerForm.value.p_loc,
           p_name: this.producerForm.value.p_name,
           p_date: this.producerForm.value.p_date,
-          p_w: this.producerForm.value.p_date,
+          p_w: this.producerForm.value.p_w,
         }
       )
       .toPromise();
