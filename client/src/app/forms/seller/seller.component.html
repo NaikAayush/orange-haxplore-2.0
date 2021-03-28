@@ -1,1 +1,50 @@
-<p>seller works!</p>
+<mat-card>
+  <h1>Create New Block</h1>
+  <form [formGroup]="sellerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Crop ID</mat-label>
+      <input id="c_id" formControlName="c_id" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Seller ID</mat-label>
+      <input id="id" formControlName="id" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Seller Location</mat-label>
+      <input id="se_loc" formControlName="se_loc" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Seller Name</mat-label>
+      <input id="se_name" formControlName="se_name" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Seller Arrival date</mat-label>
+      <input
+        id="se_date"
+        formControlName="se_date"
+        matInput
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Seller Weight</mat-label>
+      <input id="se_w" formControlName="se_w" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Seller Storage Temperature in Celsius</mat-label>
+      <input id="se_t" formControlName="se_t" matInput />
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary">
+      UPDATE BLOCK
+    </button>
+  </form>
+</mat-card>

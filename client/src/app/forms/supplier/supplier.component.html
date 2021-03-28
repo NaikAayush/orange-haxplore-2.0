@@ -1,1 +1,50 @@
-<p>supplier works!</p>
+<mat-card>
+  <h1>Update Supplier Block</h1>
+  <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Crop ID</mat-label>
+      <input id="c_id" formControlName="c_id" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Supplier ID</mat-label>
+      <input id="id" formControlName="id" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Supplier Location</mat-label>
+      <input id="s_loc" formControlName="s_loc" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Supplier Name</mat-label>
+      <input id="s_name" formControlName="s_name" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input
+        id="s_date"
+        formControlName="s_date"
+        matInput
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Supplier Weight</mat-label>
+      <input id="s_w" formControlName="s_w" matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Supplier Storage Temperature in Celsius</mat-label>
+      <input id="s_t" formControlName="s_t" matInput />
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary">
+      UPDATE BLOCK
+    </button>
+  </form>
+</mat-card>

@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+mat-card {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  width: 600px;
+  max-width: 70%;
+}
+mat-form-field {
+  width: 100%;
+}

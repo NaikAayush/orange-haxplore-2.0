@@ -6,8 +6,10 @@ import { SupplierComponent } from './forms/supplier/supplier.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ConsumerComponent } from './views/consumer/consumer.component';
+import { LoginCommonComponent } from './views/login-common/login-common.component';
 
 const routes: Routes = [
+  { path: 'login/login', component: LoginCommonComponent },
   { path: 'login/:type', component: LoginComponent },
   { path: 'register/:type', component: RegisterComponent },
 

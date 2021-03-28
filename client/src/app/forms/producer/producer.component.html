@@ -21,11 +21,6 @@
       <input id="p_name" formControlName="p_name" matInput />
     </mat-form-field>
 
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Produced Date</mat-label>
-      <input id="p_date" formControlName="p_date" matInput />
-    </mat-form-field> -->
-
     <mat-form-field appearance="fill">
       <mat-label>Choose a date</mat-label>
       <input
@@ -38,13 +33,6 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Angular forms</mat-label>
-      <input matInput [matDatepicker]="picker1" [formControl]="date" />
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field> -->
-
     <mat-form-field appearance="fill">
       <mat-label>Produced Weight</mat-label>
       <input id="p_w" formControlName="p_w" matInput />
@@ -54,4 +42,14 @@
       CREATE BLOCK
     </button>
   </form>
+  <div *ngIf="imagePath">
+    <img src="{{ imagePath }}" width="300px" />
+
+    <mat-card class="download">
+      <a href="{{ imagePath }}"><img width="50px" src="assets/dw.png" /></a>
+    </mat-card>
+  </div>
+  <div *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
 </mat-card>

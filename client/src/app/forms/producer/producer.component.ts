@@ -5,6 +5,7 @@ import { customRandom } from 'nanoid';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 declare var require: any;
 var seedrandom = require('seedrandom');
 
@@ -24,6 +25,8 @@ export class ProducerComponent implements OnInit {
   C_ID;
   date;
   serializedDate;
+  imagePath;
+  isLoading = false;
   producerForm = this.formBuilder.group({
     c_id: '',
     id: '',
@@ -57,8 +60,8 @@ export class ProducerComponent implements OnInit {
 
   async onSubmit() {
     console.log(this.producerForm.value);
-
-    await this.http
+    this.isLoading = true;
+    const data = await this.http
       .post<any>(
         environment.apiUrl + 'create/' + this.producerForm.value.c_id,
         {
@@ -70,8 +73,11 @@ export class ProducerComponent implements OnInit {
         }
       )
       .toPromise();
+    this.isLoading = false;
+    this.imagePath = data.qrUrl;
+    console.log(data);
 
-    this.producerForm.reset();
-    this.router.navigateByUrl('/producer');
+    // this.producerForm.reset();
+    // this.router.navigateByUrl('/producer');
   }
 }

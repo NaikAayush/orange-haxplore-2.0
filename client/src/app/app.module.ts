@@ -34,6 +34,8 @@ import { SupplierComponent } from './forms/supplier/supplier.component';
 import { SellerComponent } from './forms/seller/seller.component';
 
 import { RegisterComponent } from './register/register.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoginCommonComponent } from './views/login-common/login-common.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -54,6 +56,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     SupplierComponent,
     SellerComponent,
     RegisterComponent,
+    LoginCommonComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

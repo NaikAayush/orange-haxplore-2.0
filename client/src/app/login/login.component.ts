@@ -75,6 +75,8 @@ export class LoginComponent implements OnInit {
     const url = 'register/' + this.realType;
     if (this.regStatus == 0) {
       this.router.navigateByUrl(url);
+    } else {
+      this.router.navigateByUrl(this.realType);
     }
     // if (this.regStatus == 0) {
     //   this.router.navigateByUrl('producer/register');
