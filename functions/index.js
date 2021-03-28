@@ -8,7 +8,7 @@ const db = admin.firestore();
 
 const app = express();
 const cors = require("cors");
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 const blockServer = "http://34.87.52.243:3000";
 const entityName = "Test";
@@ -44,7 +44,10 @@ async function getCrop(cropId) {
       return [true, resp.data];
     })
     .catch((error) => {
-      return [false, `{"code": ${error.response.status}, "message": ${error.response.data}}`];
+      return [
+        false,
+        `{"code": ${error.response.status}, "message": ${error.response.data}}`,
+      ];
     });
 }
 
@@ -54,7 +57,7 @@ app.get("/get/:cropId", async (req, res) => {
   data = JSON.parse(data);
   console.log(status, data);
   if (!status) res.status(data.code);
-  return res.send({success: status, data: data});
+  return res.send({ success: status, data: data });
 });
 
 app.post("/create/:cropId", async (req, res) => {
@@ -75,7 +78,7 @@ app.post("/create/:cropId", async (req, res) => {
     });
   console.log(status, ret);
 
-  return res.send({success: status, data: ret});
+  return res.send({ success: status, data: ret });
 });
 
 app.post("/update/:cropId", async (req, res) => {
@@ -83,10 +86,10 @@ app.post("/update/:cropId", async (req, res) => {
   gotData = JSON.parse(gotData);
 
   if (!gotStatus) {
-    return res.send({success: gotStatus, data: gotData});
+    return res.send({ success: gotStatus, data: gotData });
   }
 
-  let new_data = {...gotData, ...req.body};
+  let new_data = { ...gotData, ...req.body };
   console.log(new_data);
 
   let data = {
@@ -105,7 +108,7 @@ app.post("/update/:cropId", async (req, res) => {
     });
   console.log(status, ret);
 
-  return res.send({success: status, data: ret});
+  return res.send({ success: status, data: ret });
 });
 
 // app.listen(3000, () => console.log("Example app listening on port 3000!"));
@@ -151,6 +154,23 @@ app.post("/login", async (req, res) => {
     console.log("Document data:", doc.data());
     return res.send({ uid: uid, data: doc.data() });
   }
+});
+
+//Get Insititute Id(Producer, Seller)
+app.get("/getInstituteDetails/:UID", async (req, res) => {
+  const UID = req.params.UID;
+  const cityRef = db.collection("users").doc(UID);
+  const doc = await cityRef.get();
+  if (!doc.exists) {
+    console.log("No such document!");
+  } else {
+    console.log("Document data:", doc.data());
+  }
+  return res.send({
+    id: doc.data().id,
+    name: doc.data().name,
+    loc: doc.data().loc,
+  });
 });
 
 // // Create and Deploy Your First Cloud Functions
