@@ -78,6 +78,12 @@ a classification model to predict whether an item is edible or not. The input to
 
 _Add some screens and a demo_
 
+![](./screenshots/1.png)
+![](./screenshots/2.png)
+![](./screenshots/3.png)
+![](./screenshots/4.png)
+![](./screenshots/5.png)
+
 #### Usage
 
 _Tell in steps how can we setup your application. Also mention all relevant requirements and links._
