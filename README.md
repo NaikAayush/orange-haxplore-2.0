@@ -18,6 +18,7 @@ Supplier - supplier@gmail.com | supplier123
 Seller - seller@gmail.com | seller123
 
 Scan the below QR for a demo
+
 ![](./screenshots/test-qr.png)
 
 #### Overview
