@@ -5,8 +5,8 @@ the online hackathon conducted by Codefest, the annual departmental fest of Comp
 
 ### _Team Name_
 
-* _Aayush_
-* _Samyak S_
+* [_Aayush_](https://github.com/NaikAayush/)
+* [_Samyak S_](https://github.com/Samyak2/)
 
 ### **OrganicChain**
 
