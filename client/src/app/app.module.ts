@@ -26,11 +26,14 @@ import { ProducerComponent } from './forms/producer/producer.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { RegisterProducerComponent } from './register/register-producer/register-producer.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { ConsumerComponent } from './views/consumer/consumer.component';
 import { MatTableModule } from '@angular/material/table';
+import { SupplierComponent } from './forms/supplier/supplier.component';
+import { SellerComponent } from './forms/seller/seller.component';
+
+import { RegisterComponent } from './register/register.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -47,8 +50,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AppComponent,
     LoginComponent,
     ProducerComponent,
-    RegisterProducerComponent,
     ConsumerComponent,
+    SupplierComponent,
+    SellerComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

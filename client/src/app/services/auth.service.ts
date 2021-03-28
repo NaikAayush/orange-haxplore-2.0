@@ -19,7 +19,11 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
   user$: Observable<any>;
 
-  constructor(private afAuth: AngularFireAuth, private http: HttpClient) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   getUser(): Promise<any> {
     return this.afAuth.authState.pipe(first()).toPromise();
@@ -29,5 +33,10 @@ export class AuthService {
     return this.http
       .get<any>(environment.apiUrl + 'getInstituteDetails/' + uid)
       .toPromise();
+  }
+
+  logOut() {
+    this.afAuth.signOut();
+    this.router.navigate(['login/producer']);
   }
 }

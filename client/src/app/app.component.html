@@ -1,3 +1,6 @@
+<head>
+  <base href="/" />
+</head>
 <mat-toolbar class="toolbar" color="primary">
   <button
     mat-icon-button
@@ -15,12 +18,8 @@
   >
     <mat-icon>favorite</mat-icon>
   </button>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-  >
-    <mat-icon>share</mat-icon>
+  <button mat-raised-button color="accent" (click)="auth.logOut()">
+    LOGOUT
   </button>
 </mat-toolbar>
 <router-outlet></router-outlet>

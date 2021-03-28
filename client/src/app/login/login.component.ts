@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { first } from 'rxjs/operators';
@@ -24,18 +23,19 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private afAuth: AngularFireAuth,
     private http: HttpClient,
-    private auth: AuthService
+    private auth: AuthService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   async ngOnInit() {
-    this.url = this.router.url;
-    this.type = this.url.split('/', 2);
+    this.type = this.activatedRoute.snapshot.paramMap.get('type');
+
     console.log(this.type);
-    if (this.type[1] == 'producer') {
+    if (this.type == 'producer') {
       this.agent = 'Producer Login';
-    } else if (this.type[1] == 'supplier') {
+    } else if (this.type == 'supplier') {
       this.agent = 'Supplier Login';
-    } else if (this.type[1] == 'seller') {
+    } else if (this.type == 'seller') {
       this.agent = 'Seller Login';
     }
 
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
     var res = await this.http
       .post<any>(environment.apiUrl + 'login', {
         uid: x.authResult.user.uid,
-        type: this.type[1],
+        type: this.type,
       })
       .toPromise();
     this.realType = res.data.type;
@@ -72,12 +72,16 @@ export class LoginComponent implements OnInit {
     //   });
     console.log(this.realType);
     console.log(this.regStatus);
+    const url = 'register/' + this.realType;
     if (this.regStatus == 0) {
-      this.router.navigateByUrl('producer/register');
+      this.router.navigateByUrl(url);
     }
-    if (this.realType == 'producer') {
-      this.router.navigateByUrl('/producer');
-    }
+    // if (this.regStatus == 0) {
+    //   this.router.navigateByUrl('producer/register');
+    // }
+    // if (this.realType == 'producer') {
+    //   this.router.navigateByUrl('/producer');
+    // }
   }
 
   logOut() {

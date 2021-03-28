@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProducerComponent } from './forms/producer/producer.component';
+import { SellerComponent } from './forms/seller/seller.component';
+import { SupplierComponent } from './forms/supplier/supplier.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterProducerComponent } from './register/register-producer/register-producer.component';
+import { RegisterComponent } from './register/register.component';
 import { ConsumerComponent } from './views/consumer/consumer.component';
 
 const routes: Routes = [
-  { path: 'producer/login', component: LoginComponent },
-  { path: 'producer/register', component: RegisterProducerComponent },
-  { path: 'supplier/login', component: LoginComponent },
-  { path: 'seller/login', component: LoginComponent },
+  { path: 'login/:type', component: LoginComponent },
+  { path: 'register/:type', component: RegisterComponent },
+
   { path: 'producer', component: ProducerComponent },
+  { path: 'supplier', component: SupplierComponent },
+  { path: 'seller', component: SellerComponent },
+
   { path: 'data/:cropId', component: ConsumerComponent },
 ];
 
