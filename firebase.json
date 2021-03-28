@@ -6,5 +6,15 @@
     "ui": {
       "enabled": true
     }
+  },
+  "hosting": {
+    "public": "client/dist/client",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }

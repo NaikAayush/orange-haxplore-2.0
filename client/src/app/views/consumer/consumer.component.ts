@@ -38,13 +38,13 @@ export class ConsumerComponent implements OnInit {
       { name: 'Producer Weight', details: this.data.data.p_w },
 
       { name: 'Supplier Name', details: this.data.data.s_name },
-      { name: 'Suppler Location', details: this.data.data.s_loc },
+      { name: 'Supplier Location', details: this.data.data.s_loc },
       {
         name: 'Supplier Dispatch Date',
         details: this.data.data.s_date.substring(0, 10),
       },
-      { name: 'Suppler Weight', details: this.data.data.s_loc },
-      { name: 'Suppler Storage Temperature', details: this.data.data.s_t },
+      { name: 'Supplier Weight', details: this.data.data.s_loc },
+      { name: 'Supplier Storage Temperature', details: this.data.data.s_t },
 
       { name: 'Seller Name', details: this.data.data.se_name },
       { name: 'Seller Location', details: this.data.data.se_loc },

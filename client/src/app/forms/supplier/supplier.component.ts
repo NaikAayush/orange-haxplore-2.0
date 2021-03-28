@@ -56,7 +56,7 @@ export class SupplierComponent implements OnInit {
           s_loc: this.supplierForm.value.s_loc,
           s_name: this.supplierForm.value.s_name,
           s_date: this.supplierForm.value.s_date,
-          s_w: this.supplierForm.value.s_date,
+          s_w: this.supplierForm.value.s_w,
           s_t: this.supplierForm.value.s_t,
         }
       )
