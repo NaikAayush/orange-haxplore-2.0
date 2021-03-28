@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-register-producer',
-  templateUrl: './register-producer.component.html',
-  styleUrls: ['./register-producer.component.css'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
 })
-export class RegisterProducerComponent implements OnInit {
+export class RegisterComponent implements OnInit {
+  type;
   UID;
   registerForm = this.formBuilder.group({
     id: '',
@@ -22,10 +23,12 @@ export class RegisterProducerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   async ngOnInit() {
+    this.type = this.activatedRoute.snapshot.paramMap.get('type');
     const user = await this.auth.getUser();
     this.UID = user.uid;
   }
@@ -41,7 +44,7 @@ export class RegisterProducerComponent implements OnInit {
         loc: this.registerForm.value.loc,
       })
       .toPromise();
-    this.router.navigateByUrl('/producer');
+    this.router.navigateByUrl(this.type);
     this.registerForm.reset();
   }
 }
