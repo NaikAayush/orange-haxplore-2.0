@@ -12,6 +12,10 @@ the online hackathon conducted by Codefest, the annual departmental fest of Comp
 
 ### Implementation
 https://haxplore-orange.web.app/login/login
+
+#### Video Submission
+https://youtu.be/wOpQuO4GIWE
+
 #### Test Credentials
 * Producer - producer@gmail.com | producer123
 * Supplier - supplier@gmail.com | supplier123
