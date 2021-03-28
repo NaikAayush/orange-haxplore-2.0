@@ -9,7 +9,11 @@ admin.initializeApp({
   'storageBucket': 'haxplore-orange.appspot.com'
 });
 const db = admin.firestore();
-const bucket = admin.storage().bucket();
+const storage = admin.storage()
+const bucket = storage.bucket();
+var logoFile = "";
+bucket.file("logo.png").download().then((resp) => {logoFile = resp[0]});
+
 
 const app = express();
 const cors = require("cors");
@@ -189,11 +193,10 @@ app.get("/getInstituteDetails/:UID", async (req, res) => {
 });
 
 async function makeQR(text) {
-  const logoFile = (await bucket.file("logo.png").download())[0];
-
+  console.time("gen QR");
   const buffer = await new AwesomeQR({
     text: text,
-    size: 500,
+    size: 400,
     components: {
       data: {
         scale: 1.0,
@@ -202,15 +205,21 @@ async function makeQR(text) {
     logoImage: logoFile,
     logoScale: 0.2
   }).draw();
+  console.timeEnd("gen QR");
 
+  console.time("get file");
   const newFileName = uuidv4();
   const newFile = bucket.file(`QR/${newFileName}`);
+  console.timeEnd("get file");
+  console.time("Upload file");
   await newFile.save(buffer, {
     metadata: {
       contentType: 'image/png'
-    }
+    },
+    resumable: false,
+    public: true
   });
-  await newFile.makePublic();
+  console.timeEnd("Upload file");
   const newFileURL = bucket.file(`QR/${newFileName}`).publicUrl();
 
   return newFileURL;
