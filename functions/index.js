@@ -1,14 +1,19 @@
 var express = require("express");
 var axios = require("axios");
+const {AwesomeQR} = require("awesome-qr");
+const {v4: uuidv4} = require('uuid');
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-admin.initializeApp();
+admin.initializeApp({
+  'storageBucket': 'haxplore-orange.appspot.com'
+});
 const db = admin.firestore();
+const bucket = admin.storage().bucket();
 
 const app = express();
 const cors = require("cors");
-app.use(cors({ origin: true }));
+app.use(cors({origin: true}));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -24,8 +29,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
+const frontendServer = "http://localhost";
 const blockServer = "http://34.87.52.243:3000";
 const entityName = "Test";
 
@@ -44,10 +50,7 @@ async function getCrop(cropId) {
       return [true, resp.data];
     })
     .catch((error) => {
-      return [
-        false,
-        `{"code": ${error.response.status}, "message": ${error.response.data}}`,
-      ];
+      return [false, JSON.stringify({"code": error.response.status, "message": error.response.data})];
     });
 }
 
@@ -57,28 +60,37 @@ app.get("/get/:cropId", async (req, res) => {
   data = JSON.parse(data);
   console.log(status, data);
   if (!status) res.status(data.code);
-  return res.send({ success: status, data: data });
+  return res.send({success: status, data: data});
 });
 
 app.post("/create/:cropId", async (req, res) => {
+  const qrUrl = await makeQR(`${frontendServer}/data/${req.params.cropId}`);
+  console.log(qrUrl);
+  let newData = req.body;
+  newData.qrUrl = qrUrl;
+
   let data = {
     $class: "org.orange.organicchain.Test",
     cropId: req.params.cropId,
-    data: JSON.stringify(req.body),
+    data: JSON.stringify(newData),
   };
+
   console.log(data);
   let [status, ret] = await axios
     .post(`${blockServer}/api/${entityName}`, data)
     .then((resp) => {
-      return [true, resp.data];
+      let newData = resp.data;
+      newData.data = JSON.parse(newData.data);
+      return [true, newData];
     })
     .catch((error) => {
       console.log(error.response.data);
-      return [false, `{"code": ${error.response.status}}`];
+      return [false, {"code": error.response.status, "message": error.response.data}];
     });
   console.log(status, ret);
+  if (!status) res.status(ret.code);
 
-  return res.send({ success: status, data: ret });
+  return res.send({success: status, data: ret, qrUrl: qrUrl});
 });
 
 app.post("/update/:cropId", async (req, res) => {
@@ -86,10 +98,10 @@ app.post("/update/:cropId", async (req, res) => {
   gotData = JSON.parse(gotData);
 
   if (!gotStatus) {
-    return res.send({ success: gotStatus, data: gotData });
+    return res.send({success: gotStatus, data: gotData});
   }
 
-  let new_data = { ...gotData, ...req.body };
+  let new_data = {...gotData, ...req.body};
   console.log(new_data);
 
   let data = {
@@ -100,15 +112,18 @@ app.post("/update/:cropId", async (req, res) => {
   let [status, ret] = await axios
     .put(`${blockServer}/api/${entityName}/${req.params.cropId}`, data)
     .then((resp) => {
-      return [true, resp.data];
+      let newData = resp.data;
+      newData.data = JSON.parse(newData.data);
+      return [true, newData];
     })
     .catch((error) => {
       console.log(error.response.data);
-      return [false, `{"code": ${error.response.status}}`];
+      return [false, {"code": error.response.status, "message": error.response.data}];
     });
   console.log(status, ret);
+  if (!status) res.status(ret.code);
 
-  return res.send({ success: status, data: ret });
+  return res.send({success: status, data: ret});
 });
 
 // app.listen(3000, () => console.log("Example app listening on port 3000!"));
@@ -131,7 +146,7 @@ app.post("/register", async (req, res) => {
 
   const res1 = await cityRef.update(data);
   const doc1 = await cityRef.get();
-  return res.send({ uid: uid, data: doc.data() });
+  return res.send({uid: uid, data: doc.data()});
 });
 
 app.post("/login", async (req, res) => {
@@ -149,10 +164,10 @@ app.post("/login", async (req, res) => {
     const res1 = await db.collection("users").doc(uid).set(data);
     const doc = await cityRef.get();
 
-    return res.send({ uid: uid, data: doc.data() });
+    return res.send({uid: uid, data: doc.data()});
   } else {
     console.log("Document data:", doc.data());
-    return res.send({ uid: uid, data: doc.data() });
+    return res.send({uid: uid, data: doc.data()});
   }
 });
 
@@ -173,6 +188,39 @@ app.get("/getInstituteDetails/:UID", async (req, res) => {
   });
 });
 
+async function makeQR(text) {
+  const logoFile = (await bucket.file("logo.png").download())[0];
+
+  const buffer = await new AwesomeQR({
+    text: text,
+    size: 500,
+    components: {
+      data: {
+        scale: 1.0,
+      }
+    },
+    logoImage: logoFile,
+    logoScale: 0.2
+  }).draw();
+
+  const newFileName = uuidv4();
+  const newFile = bucket.file(`QR/${newFileName}`);
+  await newFile.save(buffer, {
+    metadata: {
+      contentType: 'image/png'
+    }
+  });
+  await newFile.makePublic();
+  const newFileURL = bucket.file(`QR/${newFileName}`).publicUrl();
+
+  return newFileURL;
+}
+
+app.post("/genQR", async (req, res) => {
+  newFileURL = await makeQR(req.body.text);
+  res.send({"url": newFileURL});
+})
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -180,6 +228,7 @@ app.get("/getInstituteDetails/:UID", async (req, res) => {
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+//
 //
 
 exports.api = functions.https.onRequest(app);
