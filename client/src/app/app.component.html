@@ -9,10 +9,8 @@
     class="example-icon favorite-icon"
     aria-label="Example icon-button with heart icon"
   ></button>
-  <div *ngIf="auth.user$ | async as user">
-    <button mat-raised-button color="accent" (click)="auth.logOut()">
-      LOGOUT
-    </button>
-  </div>
+  <button mat-raised-button color="accent" (click)="auth.logOut()">
+    LOGOUT
+  </button>
 </mat-toolbar>
 <router-outlet></router-outlet>
