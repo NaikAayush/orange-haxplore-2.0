@@ -44,7 +44,7 @@ async function getCrop(cropId) {
       return [true, resp.data];
     })
     .catch((error) => {
-      return [false, `{"code": ${error.response.status}, "message": ${error.response.data}}`];
+      return [false, JSON.stringify({"code": error.response.status, "message": error.response.data})];
     });
 }
 
@@ -67,13 +67,16 @@ app.post("/create/:cropId", async (req, res) => {
   let [status, ret] = await axios
     .post(`${blockServer}/api/${entityName}`, data)
     .then((resp) => {
-      return [true, resp.data];
+      let newData = resp.data;
+      newData.data = JSON.parse(newData.data);
+      return [true, newData];
     })
     .catch((error) => {
       console.log(error.response.data);
-      return [false, `{"code": ${error.response.status}}`];
+      return [false, {"code": error.response.status, "message": error.response.data}];
     });
   console.log(status, ret);
+  if (!status) res.status(ret.code);
 
   return res.send({success: status, data: ret});
 });
@@ -97,13 +100,16 @@ app.post("/update/:cropId", async (req, res) => {
   let [status, ret] = await axios
     .put(`${blockServer}/api/${entityName}/${req.params.cropId}`, data)
     .then((resp) => {
-      return [true, resp.data];
+      let newData = resp.data;
+      newData.data = JSON.parse(newData.data);
+      return [true, newData];
     })
     .catch((error) => {
       console.log(error.response.data);
-      return [false, `{"code": ${error.response.status}}`];
+      return [false, {"code": error.response.status, "message": error.response.data}];
     });
   console.log(status, ret);
+  if (!status) res.status(ret.code);
 
   return res.send({success: status, data: ret});
 });
@@ -128,7 +134,7 @@ app.post("/register", async (req, res) => {
 
   const res1 = await cityRef.update(data);
   const doc1 = await cityRef.get();
-  return res.send({ uid: uid, data: doc.data() });
+  return res.send({uid: uid, data: doc.data()});
 });
 
 app.post("/login", async (req, res) => {
@@ -146,10 +152,10 @@ app.post("/login", async (req, res) => {
     const res1 = await db.collection("users").doc(uid).set(data);
     const doc = await cityRef.get();
 
-    return res.send({ uid: uid, data: doc.data() });
+    return res.send({uid: uid, data: doc.data()});
   } else {
     console.log("Document data:", doc.data());
-    return res.send({ uid: uid, data: doc.data() });
+    return res.send({uid: uid, data: doc.data()});
   }
 });
 
