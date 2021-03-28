@@ -23,9 +23,14 @@ import { LoginComponent } from './login/login.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { ProducerComponent } from './forms/producer/producer.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { RegisterProducerComponent } from './register/register-producer/register-producer.component';
+
+import { MatNativeDateModule } from '@angular/material/core';
+import { ConsumerComponent } from './views/consumer/consumer.component';
+import { MatTableModule } from '@angular/material/table';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -38,7 +43,13 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 };
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, ProducerComponent, RegisterProducerComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    ProducerComponent,
+    RegisterProducerComponent,
+    ConsumerComponent,
+  ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -57,6 +68,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     MatToolbarModule,
     MatIconModule,
     HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

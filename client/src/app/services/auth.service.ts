@@ -12,14 +12,22 @@ import {
 import { first } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user$: Observable<any>;
 
-  constructor(private afAuth: AngularFireAuth) {}
+  constructor(private afAuth: AngularFireAuth, private http: HttpClient) {}
 
   getUser(): Promise<any> {
     return this.afAuth.authState.pipe(first()).toPromise();
+  }
+
+  async getProducerId(uid) {
+    return this.http
+      .get<any>(environment.apiUrl + 'getInstituteDetails/' + uid)
+      .toPromise();
   }
 }
