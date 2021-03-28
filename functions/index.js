@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-const frontendServer = "http://localhost";
+const frontendServer = "https://haxplore-orange.web.app";
 const blockServer = "http://34.87.52.243:3000";
 const entityName = "OrganicData";
 
