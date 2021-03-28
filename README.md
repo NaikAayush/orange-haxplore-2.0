@@ -12,10 +12,10 @@ the online hackathon conducted by Codefest, the annual departmental fest of Comp
 
 ### Implementation
 https://haxplore-orange.web.app/login/login
-Test Credentials
-Producer - producer@gmail.com | producer123
-Supplier - supplier@gmail.com | supplier123
-Seller - seller@gmail.com | seller123
+#### Test Credentials
+* Producer - producer@gmail.com | producer123
+* Supplier - supplier@gmail.com | supplier123
+* Seller - seller@gmail.com | seller123
 
 Scan the below QR for a demo
 
